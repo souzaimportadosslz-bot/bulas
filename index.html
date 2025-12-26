@@ -20,51 +20,181 @@
 
     <script>
         window.allMedicamentos = [];
-        const LOCAL_STORAGE_KEY = 'souzafarma_bulas_v4_final';
+        const LOCAL_STORAGE_KEY = 'souzafarma_bulas_v7_complete';
 
-        // LISTA MESTRA CONSOLIDADA (MAIS DE 50 ITENS)
+        // BASE DE DATA TOTAL (TODOS OS 50+ MEDICAMENTOS)
         const baseMedicamentos = [
             // --- ANTIBIÓTICOS E CLAVULANATOS ---
-            { nome: "Amoxicilina 400mg/5mL", principioAtivo: "Amoxicilina Suspensão", dosagem: "400mg/5ml", categoria: "Antibiótico", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(25 a 45 mg/kg/dia)", doseMgPerKgPerDiaMin: 25, doseMgPerKgPerDiaMax: 45, defaultDose: 30, freqDosesPorDia: 2, concentracaoMgPerMl: 80, freqTexto: "12/12h (2 vezes ao dia)." } },
-            { nome: "Amoxicilina + Clavulanato 400+57mg/5mL", principioAtivo: "Amoxicilina + Clavulanato", dosagem: "400mg+57mg/5ml", categoria: "Antibiótico", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(25 a 45 mg/kg/dia)", doseMgPerKgPerDiaMin: 25, doseMgPerKgPerDiaMax: 45, defaultDose: 30, freqDosesPorDia: 2, concentracaoMgPerMl: 80, freqTexto: "12/12h (2 vezes ao dia)." } },
-            { nome: "Amoxicilina + Clavulanato 250+62,5mg/5mL", principioAtivo: "Amoxicilina + Clavulanato", dosagem: "250mg+62,5mg/5ml", categoria: "Antibiótico", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(20 a 40 mg/kg/dia)", doseMgPerKgPerDiaMin: 20, doseMgPerKgPerDiaMax: 40, defaultDose: 30, freqDosesPorDia: 3, concentracaoMgPerMl: 50, freqTexto: "8/8h (3 vezes ao dia)." } },
-            { nome: "Amoxicilina 250mg/5mL", principioAtivo: "Amoxicilina Suspensão", dosagem: "250mg/5ml", categoria: "Antibiótico", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(20 a 50 mg/kg/dia)", doseMgPerKgPerDiaMin: 20, doseMgPerKgPerDiaMax: 50, defaultDose: 40, freqDosesPorDia: 3, concentracaoMgPerMl: 50, freqTexto: "8/8h (3 vezes ao dia)." } },
-            { nome: "Azitromicina 200mg/5mL", principioAtivo: "Azitromicina", dosagem: "200mg/5ml", categoria: "Antibiótico", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(10 mg/kg/dia)", doseMgPerKgPerDiaMin: 10, doseMgPerKgPerDiaMax: 10, defaultDose: 10, freqDosesPorDia: 1, concentracaoMgPerMl: 40, freqTexto: "Dose Única Diária (24/24h)." } },
-            { nome: "Cefadroxila 250mg/5mL", principioAtivo: "Cefadroxila Suspensão", dosagem: "250mg/5mL", categoria: "Antibiótico", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(30 a 50 mg/kg/dia)", doseMgPerKgPerDiaMin: 30, doseMgPerKgPerDiaMax: 50, defaultDose: 30, freqDosesPorDia: 2, concentracaoMgPerMl: 50, freqTexto: "12/12h (2 vezes ao dia)." } },
-            { nome: "Cefalexina 250mg/5mL", principioAtivo: "Cefalexina", dosagem: "250mg/5mL", categoria: "Antibiótico", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(25 a 50 mg/kg/dia)", doseMgPerKgPerDiaMin: 25, doseMgPerKgPerDiaMax: 50, defaultDose: 30, freqDosesPorDia: 4, concentracaoMgPerMl: 50, freqTexto: "6/6h (4 vezes ao dia)." } },
+            { 
+                nome: "Amoxicilina + Clavulanato 400+57mg/5mL", 
+                principioAtivo: "Amoxicilina + Clavulanato de Potássio", 
+                dosagem: "400mg+57mg/5ml", 
+                categoria: "Antibiótico", 
+                indicacoes: "Tratamento de otite média, sinusite, infecções respiratórias e urinárias.",
+                reacoesAdversas: "Manter obrigatoriamente em frigorífico após preparar. Administrar no início das refeições.",
+                tipoCalculo: "faixa", 
+                pesoBaseCalculo: { infoDoseRef: "(25 a 45 mg/kg/dia)", doseMgPerKgPerDiaMin: 25, doseMgPerKgPerDiaMax: 45, defaultDose: 30, freqDosesPorDia: 2, concentracaoMgPerMl: 80, freqTexto: "12/12h (2 vezes ao dia)." } 
+            },
+            { 
+                nome: "Amoxicilina + Clavulanato 250+62,5mg/5mL", 
+                principioAtivo: "Amoxicilina + Clavulanato de Potássio", 
+                dosagem: "250mg+62,5mg/5ml", 
+                categoria: "Antibiótico", 
+                indicacoes: "Infecções bacterianas sensíveis. Especialmente indicado para infecções recorrentes.",
+                reacoesAdversas: "Pode causar diarreia. Agitar bem antes de usar.",
+                tipoCalculo: "faixa", 
+                pesoBaseCalculo: { infoDoseRef: "(20 a 40 mg/kg/dia)", doseMgPerKgPerDiaMin: 20, doseMgPerKgPerDiaMax: 40, defaultDose: 30, freqDosesPorDia: 3, concentracaoMgPerMl: 50, freqTexto: "8/8h (3 vezes ao dia)." } 
+            },
+            { 
+                nome: "Amoxicilina 400mg/5mL", 
+                principioAtivo: "Amoxicilina", 
+                dosagem: "400mg/5ml", 
+                categoria: "Antibiótico", 
+                indicacoes: "Amigdalite, faringite, pneumonia e infecções urinárias.",
+                reacoesAdversas: "Agitar bem. Cumprir o horário rigorosamente.",
+                tipoCalculo: "faixa", 
+                pesoBaseCalculo: { infoDoseRef: "(25 a 45 mg/kg/dia)", doseMgPerKgPerDiaMin: 25, doseMgPerKgPerDiaMax: 45, defaultDose: 30, freqDosesPorDia: 2, concentracaoMgPerMl: 80, freqTexto: "12/12h (2 vezes ao dia)." } 
+            },
+            { 
+                nome: "Amoxicilina 250mg/5mL", 
+                principioAtivo: "Amoxicilina", 
+                dosagem: "250mg/5ml", 
+                categoria: "Antibiótico", 
+                indicacoes: "Infecções bacterianas leves a moderadas.",
+                reacoesAdversas: "Manter em local fresco. Agitar antes de cada dose.",
+                tipoCalculo: "faixa", 
+                pesoBaseCalculo: { infoDoseRef: "(20 a 50 mg/kg/dia)", doseMgPerKgPerDiaMin: 20, doseMgPerKgPerDiaMax: 50, defaultDose: 40, freqDosesPorDia: 3, concentracaoMgPerMl: 50, freqTexto: "8/8h (3 vezes ao dia)." } 
+            },
+            { nome: "Amoxicilina + Clavulanato 875/125mg", principioAtivo: "Amoxicilina + Clavulanato", dosagem: "875mg+125mg", categoria: "Antibiótico", indicacoes: "Infecções em adultos.", reacoesAdversas: "Tomar no início das refeições.", posologia: "1 comprimido a cada 12 horas." },
+            { nome: "Azitromicina 200mg/5mL", principioAtivo: "Azitromicina", dosagem: "200mg/5ml", categoria: "Antibiótico", indicacoes: "Sinusite e pneumonia.", reacoesAdversas: "Dose única diária.", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(10 mg/kg/dia)", doseMgPerKgPerDiaMin: 10, doseMgPerKgPerDiaMax: 10, defaultDose: 10, freqDosesPorDia: 1, concentracaoMgPerMl: 40, freqTexto: "24/24h (Dose única)." } },
+            { nome: "Cefadroxila 250mg/5mL", principioAtivo: "Cefadroxila", dosagem: "250mg/5ml", categoria: "Antibiótico", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(30 a 50 mg/kg/dia)", doseMgPerKgPerDiaMin: 30, doseMgPerKgPerDiaMax: 50, defaultDose: 30, freqDosesPorDia: 2, concentracaoMgPerMl: 50, freqTexto: "12/12h." } },
+            { nome: "Cefalexina 250mg/5mL", principioAtivo: "Cefalexina", dosagem: "250mg/5ml", categoria: "Antibiótico", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(25 a 50 mg/kg/dia)", doseMgPerKgPerDiaMin: 25, doseMgPerKgPerDiaMax: 50, defaultDose: 30, freqDosesPorDia: 4, concentracaoMgPerMl: 50, freqTexto: "6/6h." } },
 
             // --- ANTIPARASITÁRIOS ---
-            { nome: "Nitazoxanida (Annita) Suspensão", principioAtivo: "Nitazoxanida 20mg/mL", dosagem: "20 mg/mL", categoria: "Antiparasitário", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(15 mg/kg/dia)", doseMgPerKgPerDiaMin: 15, doseMgPerKgPerDiaMax: 15, defaultDose: 15, freqDosesPorDia: 2, concentracaoMgPerMl: 20, freqTexto: "12/12h por 3 dias (0,375 mL/kg por dose)." } },
-            { nome: "Annita Comprimido 500mg", principioAtivo: "Nitazoxanida", dosagem: "500 mg", categoria: "Antiparasitário", posologia: "Adultos: 1 comprimido 12/12h por 3 dias." },
-            { nome: "Ivermectina 6mg", principioAtivo: "Ivermectina", dosagem: "6 mg", categoria: "Antiparasitário", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(0.2 mg/kg única)", doseMgPerKgPerDiaMin: 0.2, doseMgPerKgPerDiaMax: 0.2, defaultDose: 0.2, freqDosesPorDia: 1, concentracaoMgPerMl: 6, freqTexto: "Dose única." } },
+            { 
+                nome: "Nitazoxanida (Annita) Suspensão", 
+                principioAtivo: "Nitazoxanida 20mg/mL", 
+                dosagem: "20 mg/mL", 
+                categoria: "Antiparasitário", 
+                indicacoes: "Gastroenterites virais (rotavírus) e parasitoses intestinais.",
+                reacoesAdversas: "TOMAR COM ALIMENTOS. Pode causar alteração na cor da urina.",
+                tipoCalculo: "faixa", 
+                pesoBaseCalculo: { infoDoseRef: "(15 mg/kg/dia)", doseMgPerKgPerDiaMin: 15, doseMgPerKgPerDiaMax: 15, defaultDose: 15, freqDosesPorDia: 2, concentracaoMgPerMl: 20, freqTexto: "12/12h por 3 dias (0,375 mL/kg/dose)." } 
+            },
+            { nome: "Annita Comprimido 500mg", principioAtivo: "Nitazoxanida", dosagem: "500 mg", categoria: "Antiparasitário", indicacoes: "Gastroenterites e verminoses.", reacoesAdversas: "Tomar com alimentos.", posologia: "1 comprimido 12/12h por 3 dias." },
+            { nome: "Ivermectina 6mg", principioAtivo: "Ivermectina", dosagem: "6 mg", categoria: "Antiparasitário", indicacoes: "Sarna e piolho.", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(0,2 mg/kg única)", doseMgPerKgPerDiaMin: 0.2, doseMgPerKgPerDiaMax: 0.2, defaultDose: 0.2, freqDosesPorDia: 1, concentracaoMgPerMl: 6, freqTexto: "Dose única." } },
+            { nome: "Albendazol 400mg", principioAtivo: "Albendazol", dosagem: "400mg", categoria: "Antiparasitário", indicacoes: "Verminoses comuns.", posologia: "Dose única de 400mg." },
 
-            // --- RESPIRATÓRIO ---
-            { nome: "Acebrofilina Xarope 25mg/5mL", principioAtivo: "Acebrofilina (Ped)", dosagem: "25 mg / 5 mL", categoria: "Expectorante", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(4 mg/kg/dia)", doseMgPerKgPerDiaMin: 4, doseMgPerKgPerDiaMax: 4, defaultDose: 4, freqDosesPorDia: 2, concentracaoMgPerMl: 5, freqTexto: "12/12h (2 vezes ao dia)." } },
-            { nome: "Acebrofilina Xarope 50mg/5mL", principioAtivo: "Acebrofilina (Adulto)", dosagem: "50 mg / 5 mL", categoria: "Expectorante", posologia: "Adultos: 10mL a cada 12 horas." },
-            { nome: "Acetilcisteína Xarope 20mg/mL", principioAtivo: "Acetilcisteína (Ped)", dosagem: "20 mg/mL", categoria: "Expectorante", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(20 a 30 mg/kg/dia)", doseMgPerKgPerDiaMin: 20, doseMgPerKgPerDiaMax: 30, defaultDose: 20, freqDosesPorDia: 3, concentracaoMgPerMl: 20, freqTexto: "8/8h ou 12/12h conforme indicação." } },
-            { nome: "Acetilcisteína Xarope 40mg/mL", principioAtivo: "Acetilcisteína (Adulto)", dosagem: "40 mg/mL", categoria: "Expectorante", posologia: "Adultos: 15mL (1 copo) 1 vez ao dia." },
-            { nome: "Dropropizina 1,5mg/mL Xarope", principioAtivo: "Dropropizina (Ped)", dosagem: "1,5 mg/mL", categoria: "Antitussígeno", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(1 a 2 mg/kg/dia)", doseMgPerKgPerDiaMin: 1, doseMgPerKgPerDiaMax: 2, defaultDose: 1.5, freqDosesPorDia: 3, concentracaoMgPerMl: 1.5, freqTexto: "8/8h (3 vezes ao dia)." } },
-            { nome: "Dropropizina 3mg/mL Xarope", principioAtivo: "Dropropizina (Adulto)", dosagem: "3 mg/mL", categoria: "Antitussígeno", posologia: "Adultos: 10mL até 4 vezes ao dia." },
+            // --- RESPIRATÓRIO E XAROPES ---
+            { 
+                nome: "Acebrofilina Xarope 25mg/5mL", 
+                principioAtivo: "Acebrofilina (Ped)", 
+                dosagem: "25 mg / 5 mL", 
+                categoria: "Expectorante", 
+                indicacoes: "Bronquite e asma; ajuda a expulsar secreções.",
+                reacoesAdversas: "Evitar em pacientes cardíacos ou com úlcera.",
+                tipoCalculo: "faixa", 
+                pesoBaseCalculo: { infoDoseRef: "(4 mg/kg/dia)", doseMgPerKgPerDiaMin: 4, doseMgPerKgPerDiaMax: 4, defaultDose: 4, freqDosesPorDia: 2, concentracaoMgPerMl: 5, freqTexto: "12/12h (2 vezes ao dia)." } 
+            },
+            { nome: "Acebrofilina Xarope 50mg/5mL", principioAtivo: "Acebrofilina (Adulto)", dosagem: "50 mg / 5 mL", categoria: "Expectorante", indicacoes: "Tosse com catarro em adultos.", posologia: "10mL de 12 em 12 horas." },
+            { 
+                nome: "Acetilcisteína Xarope 20mg/mL", 
+                principioAtivo: "Acetilcisteína (Ped)", 
+                dosagem: "20 mg/mL", 
+                categoria: "Expectorante", 
+                indicacoes: "Fluidificação de secreções densas (muco).",
+                reacoesAdversas: "Aumentar a ingestão de água para potencializar o efeito.",
+                tipoCalculo: "faixa", 
+                pesoBaseCalculo: { infoDoseRef: "(20 a 30 mg/kg/dia)", doseMgPerKgPerDiaMin: 20, doseMgPerKgPerDiaMax: 30, defaultDose: 20, freqDosesPorDia: 3, concentracaoMgPerMl: 20, freqTexto: "8/8h ou 12/12h." } 
+            },
+            { nome: "Acetilcisteína Xarope 40mg/mL", principioAtivo: "Acetilcisteína (Adulto)", dosagem: "40 mg/mL", categoria: "Expectorante", indicacoes: "Expectorante adulto.", posologia: "15mL (1 copo) 1 vez ao dia à noite." },
+            { 
+                nome: "Dropropizina 1,5mg/mL Xarope", 
+                principioAtivo: "Dropropizina (Ped)", 
+                dosagem: "1,5 mg/mL", 
+                categoria: "Antitussígeno", 
+                indicacoes: "Tosse seca e irritativa (sem catarro).",
+                reacoesAdversas: "Pode causar sonolência. Não usar em tosse com catarro.",
+                tipoCalculo: "faixa", 
+                pesoBaseCalculo: { infoDoseRef: "(1 a 2 mg/kg/dia)", doseMgPerKgPerDiaMin: 1, doseMgPerKgPerDiaMax: 2, defaultDose: 1.5, freqDosesPorDia: 3, concentracaoMgPerMl: 1.5, freqTexto: "8/8h (3 vezes ao dia)." } 
+            },
+            { nome: "Dropropizina 3mg/mL Xarope", principioAtivo: "Dropropizina (Adulto)", dosagem: "3 mg/mL", categoria: "Antitussígeno", indicacoes: "Tosse seca adulto.", posologia: "10mL até 4 vezes ao dia." },
+            { nome: "Abrilar (Hedera helix)", principioAtivo: "Fitoterápico", dosagem: "7 mg/mL", categoria: "Expectorante", indicacoes: "Tosse produtiva.", posologia: "2,5 a 7,5mL 3x ao dia conforme idade." },
 
             // --- CORTICOIDES ---
-            { nome: "Predsim® Solução 3 mg/mL", principioAtivo: "Prednisolona", dosagem: "3 mg/mL (Pipeta)", categoria: "Corticosteroide", tipoCalculo: "intensidade", pesoBaseCalculo: { infoDoseRef: "(0,14 a 2 mg/kg/dia)", temIntensidade: true, intensidades: [{ label: "Manutenção", valor: 0.5, obs: "(0.5 mg/kg)" }, { label: "Intermediária", valor: 1.0, obs: "(1.0 mg/kg)" }, { label: "Ataque", valor: 2.0, obs: "(2.0 mg/kg)" }], currentIntensidade: 0.5, freqDosesPorDia: 1, concentracaoMgPerMl: 3, unidade: "mL", maxDoseDiariaMg: 60, restricaoIdade: "Usar pipeta graduada.", freqTexto: "Dose total diária conforme orientação." } },
-            { nome: "Predsim Gotas 11 mg/mL", principioAtivo: "Prednisolona", dosagem: "11 mg/mL", categoria: "Corticosteroide", tipoCalculo: "intensidade", pesoBaseCalculo: { infoDoseRef: "(0,14 a 2 mg/kg/dia)", temIntensidade: true, intensidades: [{ label: "Manutenção", valor: 0.5, obs: "(0.5 mg/kg)" }, { label: "Intermediária", valor: 1.0, obs: "(1.0 mg/kg)" }, { label: "Ataque", valor: 2.0, obs: "(2.0 mg/kg)" }], currentIntensidade: 0.5, concentracaoMgPerMl: 11, unidade: "Gotas", maxDoseDiaria: 145, freqTexto: "Administrar conforme orientação médica." } },
+            { 
+                nome: "Predsim® Solução 3 mg/mL", 
+                principioAtivo: "Prednisolona", 
+                dosagem: "3 mg/mL (Pipeta)", 
+                categoria: "Corticosteroide", 
+                indicacoes: "Alergias graves, asma e inflamações sistémicas.",
+                reacoesAdversas: "Não suspender de forma abrupta. Usar pipeta exclusiva.",
+                tipoCalculo: "intensidade", 
+                pesoBaseCalculo: { infoDoseRef: "(0,14 a 2 mg/kg/dia)", temIntensidade: true, intensidades: [{ label: "Manutenção", valor: 0.5, obs: "(0.5 mg/kg)" }, { label: "Intermediária", valor: 1.0, obs: "(1.0 mg/kg)" }, { label: "Ataque", valor: 2.0, obs: "(2.0 mg/kg)" }], currentIntensidade: 0.5, freqDosesPorDia: 1, concentracaoMgPerMl: 3, unidade: "mL", maxDoseDiariaMg: 60, freqTexto: "Dose total diária conforme orientação." } 
+            },
+            { nome: "Fosfato Sódico de Prednisolona 3mg/mL", principioAtivo: "Prednisolona (Genérico)", dosagem: "3 mg/mL", categoria: "Corticosteroide", indicacoes: "Anti-inflamatório.", tipoCalculo: "intensidade", pesoBaseCalculo: { infoDoseRef: "(0,14 a 2 mg/kg/dia)", currentIntensidade: 0.5, concentracaoMgPerMl: 3, unidade: "mL", freqTexto: "Utilizar pipeta graduada." } },
+            { 
+                nome: "Predsim Gotas 11 mg/mL", 
+                principioAtivo: "Prednisolona", 
+                dosagem: "11 mg/mL (Gotas)", 
+                categoria: "Corticosteroide", 
+                indicacoes: "Dose concentrada para alergias e inflamações.",
+                reacoesAdversas: "Muito concentrado. Atenção rigorosa ao número de gotas.",
+                tipoCalculo: "intensidade", 
+                pesoBaseCalculo: { infoDoseRef: "(0,14 a 2 mg/kg/dia)", temIntensidade: true, intensidades: [{ label: "Manutenção", valor: 0.5, obs: "(0.5 mg/kg)" }, { label: "Ataque", valor: 2.0, obs: "(2.0 mg/kg)" }], currentIntensidade: 0.5, concentracaoMgPerMl: 11, unidade: "Gotas", maxDoseDiaria: 145, freqTexto: "Conforme peso do paciente." } 
+            },
 
             // --- ANTI-HISTAMÍNICOS ---
-            { nome: "Fexofenadina (Allegra) Suspensão", principioAtivo: "Fexofenadina 6mg/mL", dosagem: "6 mg/mL", categoria: "Anti-histamínico", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(2 a 5 mg/kg/dia)", doseMgPerKgPerDiaMin: 2, doseMgPerKgPerDiaMax: 5, defaultDose: 2, freqDosesPorDia: 2, concentracaoMgPerMl: 6, freqTexto: "12/12h conforme orientação médica." } },
-            { nome: "Hidroxizina Suspensão", principioAtivo: "Hixizine", dosagem: "2 mg/mL", categoria: "Anti-histamínico", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(2 mg/kg/dia)", doseMgPerKgPerDiaMin: 2, doseMgPerKgPerDiaMax: 2, defaultDose: 2, freqDosesPorDia: 3, concentracaoMgPerMl: 2, freqTexto: "8/8h (3 vezes ao dia)." } },
-            { nome: "Dexclorfeniramina Suspensão", principioAtivo: "Polaramine", dosagem: "0,4 mg/mL", categoria: "Anti-histamínico", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(0,15 mg/kg/dia)", doseMgPerKgPerDiaMin: 0.15, doseMgPerKgPerDiaMax: 0.15, defaultDose: 0.15, freqDosesPorDia: 3, concentracaoMgPerMl: 0.4, freqTexto: "8/8h ou 6/6h." } },
+            { nome: "Fexofenadina (Allegra) Suspensão", principioAtivo: "Fexofenadina", dosagem: "6 mg/mL", categoria: "Anti-histamínico", indicacoes: "Rinite alérgica infantil.", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(2 a 5 mg/kg/dia)", doseMgPerKgPerDiaMin: 2, doseMgPerKgPerDiaMax: 5, defaultDose: 2, freqDosesPorDia: 2, concentracaoMgPerMl: 6, freqTexto: "12/12h." } },
+            { nome: "Hidroxizina Suspensão", principioAtivo: "Hixizine", dosagem: "2 mg/mL", categoria: "Anti-histamínico", indicacoes: "Prurido (comichão) e alergias de pele.", reacoesAdversas: "Causa sonolência intensa.", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(2 mg/kg/dia)", doseMgPerKgPerDiaMin: 2, doseMgPerKgPerDiaMax: 2, defaultDose: 2, freqDosesPorDia: 3, concentracaoMgPerMl: 2, freqTexto: "8/8h." } },
+            { nome: "Dexclorfeniramina + Betametasona Susp.", principioAtivo: "Koide D / Celestamine", dosagem: "Xarope", categoria: "Corticosteroide + Anti-histamínico", indicacoes: "Alergias severas.", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(0,15 mg/kg/dose)", doseMgPerKgPerDiaMin: 0.15, doseMgPerKgPerDiaMax: 0.25, defaultDose: 0.2, freqDosesPorDia: 3, concentracaoMgPerMl: 0.4, freqTexto: "8/8h." } },
+            { nome: "Dexclorfeniramina Suspensão", principioAtivo: "Polaramine", dosagem: "0,4 mg/mL", categoria: "Anti-histamínico", tipoCalculo: "faixa", pesoBaseCalculo: { doseMgPerKgPerDiaMin: 0.15, defaultDose: 0.15, freqDosesPorDia: 3, concentracaoMgPerMl: 0.4, freqTexto: "8/8h." } },
+            { nome: "Loratadina Xarope", principioAtivo: "Loratadina", dosagem: "1 mg/mL", categoria: "Anti-histamínico", indicacoes: "Alergias em geral. Não causa sono.", posologia: "Pediatria: 5 a 10mL 1 vez ao dia." },
+            { nome: "Desloratadina Xarope", principioAtivo: "Desloratadina", dosagem: "0,5 mg/mL", categoria: "Anti-histamínico", indicacoes: "Rinite e urticária.", posologia: "Crianças: 2,5 a 5mL 1 vez ao dia." },
+            { nome: "Cetirizina Gotas", principioAtivo: "Cetirizina", dosagem: "10 mg/mL", categoria: "Anti-histamínico" },
 
             // --- ANALGÉSICOS E ANTIESPASMÓDICOS ---
-            { nome: "Dipirona 500mg/mL Gotas", principioAtivo: "Dipirona", dosagem: "500 mg/mL", categoria: "Analgésico", tipoCalculo: "tabelaDipirona", pesoBaseCalculo: { infoDoseRef: "(8 a 16 mg/kg/dose)", maxDoseDiaria: 160, freqTexto: "Até 4 vezes ao dia (6/6h)." } },
-            { nome: "Ibuprofeno 100mg/mL Gotas", principioAtivo: "Ibuprofeno", dosagem: "100 mg/mL", categoria: "Analgésico", tipoCalculo: "intensidade", pesoBaseCalculo: { infoDoseRef: "(5 a 10 mg/kg/dose)", temIntensidade: true, intensidades: [{ label: "Leve", valor: 5, obs: "(5 mg/kg)" }, { label: "Intensa", valor: 10, obs: "(10 mg/kg)" }], currentIntensidade: 5, concentracaoMgPerMl: 100, unidade: "Gotas", maxDosePorTomada: 20, maxDoseDiaria: 80, freqTexto: "A cada 6 ou 8 horas." } },
-            { nome: "Buscopan® Gotas (Simples)", principioAtivo: "Escopolamina", dosagem: "10 mg/mL", categoria: "Antiespasmódico", tipoCalculo: "tabelaBuscopan", pesoBaseCalculo: { infoDoseRef: "(0,3 a 1,5 mg/kg/dose)", freqTexto: "3 vezes ao dia (8/8h)." } },
-            { nome: "Bromoprida Gotas", principioAtivo: "Digesan", dosagem: "4 mg/mL", categoria: "Antiemético", tipoCalculo: "intensidade", pesoBaseCalculo: { infoDoseRef: "(1 gota/kg/dose)", currentIntensidade: 0.2, concentracaoMgPerMl: 4, unidade: "Gotas", maxDosePorTomada: 40, freqDosesPorDia: 3, freqTexto: "3 vezes ao dia (a cada 8 horas)." } },
-
-            // --- OUTROS ---
-            { nome: "Decongex Plus Gotas", principioAtivo: "Bronfeniramina + Fenilefrina", dosagem: "2 mg + 2,5 mg/mL", categoria: "Descongestionante", tipoCalculo: "tabelaDecongexGotas", pesoBaseCalculo: { maxDoseDiariaGotas: 60, freqTexto: "Administrar 3 vezes ao dia (8/8h)." } },
-            { nome: "Luftal (Simeticona) Gotas", principioAtivo: "Simeticona", dosagem: "75 mg/mL", categoria: "Antigases", posologia: "Lactentes: 3-5 Gotas. Crianças: 5-10 Gotas." },
-            { nome: "Dramin B6 Gotas", principioAtivo: "Dimenidrinato", dosagem: "Gotas", categoria: "Antiemético", posologia: "1 gota por kg de peso corporal por dose." }
+            { 
+                nome: "Dipirona 500mg/mL Gotas", 
+                principioAtivo: "Dipirona", 
+                dosagem: "500 mg/mL", 
+                categoria: "Analgésico", 
+                indicacoes: "Febre e dores intensas.",
+                reacoesAdversas: "Atenção a quedas de pressão. Contraindicado em menores de 3 meses.",
+                tipoCalculo: "tabelaDipirona", 
+                pesoBaseCalculo: { infoDoseRef: "(8 a 16 mg/kg/dose)", maxDoseDiaria: 160, freqTexto: "Até 4 vezes ao dia (6/6h)." } 
+            },
+            { 
+                nome: "Ibuprofeno 100mg/mL Gotas", 
+                principioAtivo: "Ibuprofeno", 
+                dosagem: "100 mg/mL", 
+                categoria: "Analgésico", 
+                indicacoes: "Febre e inflamações leves.",
+                reacoesAdversas: "NÃO USAR SE HOUVER SUSPEITA DE DENGUE. Tomar após comer.",
+                tipoCalculo: "intensidade", 
+                pesoBaseCalculo: { infoDoseRef: "(5 a 10 mg/kg/dose)", temIntensidade: true, intensidades: [{ label: "Leve", valor: 5, obs: "(5 mg/kg)" }, { label: "Intensa", valor: 10, obs: "(10 mg/kg)" }], currentIntensidade: 5, concentracaoMgPerMl: 100, unidade: "Gotas", maxDosePorTomada: 20, maxDoseDiaria: 80, freqTexto: "A cada 6 ou 8 horas." } 
+            },
+            { nome: "Ibuprofeno 50mg/mL Gotas", principioAtivo: "Ibuprofeno", dosagem: "50 mg/mL", categoria: "Analgésico", tipoCalculo: "intensidade", pesoBaseCalculo: { infoDoseRef: "(5 a 10 mg/kg/dose)", currentIntensidade: 5, concentracaoMgPerMl: 50, unidade: "Gotas", freqTexto: "A cada 6 ou 8 horas." } },
+            { nome: "Paracetamol 200mg/mL Gotas", principioAtivo: "Paracetamol", dosagem: "200 mg/mL", categoria: "Analgésico", indicacoes: "Analgésico de escolha para Dengue.", tipoCalculo: "intensidade", pesoBaseCalculo: { infoDoseRef: "(10 a 15 mg/kg/dose)", currentIntensidade: 12, concentracaoMgPerMl: 200, unidade: "Gotas", freqTexto: "A cada 4 ou 6 horas." } },
+            
+            // --- GASTRO E ANTIEMÉTICOS ---
+            { nome: "Buscopan® Composto Gotas", principioAtivo: "Escopolamina + Dipirona", dosagem: "Gotas", categoria: "Antiespasmódico", indicacoes: "Cólicas fortes.", tipoCalculo: "tabelaBuscopanComposto", pesoBaseCalculo: { freqTexto: "3 a 4 vezes ao dia." } },
+            { nome: "Buscopan® Gotas (Simples)", principioAtivo: "Butilbrometo de Escopolamina", dosagem: "10 mg/mL", categoria: "Antiespasmódico", indicacoes: "Cólicas leves e gases.", tipoCalculo: "tabelaBuscopan", pesoBaseCalculo: { infoDoseRef: "(0,3 a 1,5 mg/kg/dose)", freqTexto: "3 vezes ao dia (8/8h)." } },
+            { 
+                nome: "Bromoprida Gotas", 
+                principioAtivo: "Bromoprida", 
+                dosagem: "4 mg/mL", 
+                categoria: "Antiemético", 
+                indicacoes: "Vómitos e náuseas.",
+                reacoesAdversas: "Atenção a reacções de tontura ou espasmos em crianças pequenas.",
+                tipoCalculo: "intensidade", 
+                pesoBaseCalculo: { infoDoseRef: "(1 gota/kg/dose)", currentIntensidade: 0.2, concentracaoMgPerMl: 4, unidade: "Gotas", maxDosePorTomada: 40, freqDosesPorDia: 3, freqTexto: "3 vezes ao dia (a cada 8 horas)." } 
+            },
+            { nome: "Domperidona Suspensão", principioAtivo: "Domperidona", dosagem: "1 mg/mL", categoria: "Gastrocinético", indicacoes: "Refluxo e má digestão.", tipoCalculo: "faixa", pesoBaseCalculo: { infoDoseRef: "(0,75 mg/kg/dia)", doseMgPerKgPerDiaMin: 0.75, defaultDose: 0.75, freqDosesPorDia: 3, concentracaoMgPerMl: 1, freqTexto: "3 vezes ao dia (antes de comer)." } },
+            { nome: "Decongex Plus Gotas", principioAtivo: "Fenilefrina + Bronfeniramina", dosagem: "Gotas", categoria: "Descongestionante", indicacoes: "Nariz entupido e rinite.", tipoCalculo: "tabelaDecongexGotas", pesoBaseCalculo: { maxDoseDiariaGotas: 60, freqTexto: "Administrar 3 vezes ao dia (8/8h)." } },
+            { nome: "Decongex Plus Xarope", principioAtivo: "Xarope", dosagem: "Xarope", categoria: "Descongestionante", indicacoes: "Resfriado e coriza.", tipoCalculo: "tabelaDecongex", pesoBaseCalculo: { maxDoseDiariaMl: 60, freqTexto: "3 a 4 vezes ao dia." } },
+            { nome: "Luftal (Simeticona) Gotas", principioAtivo: "Simeticona", dosagem: "75 mg/mL", categoria: "Antigases", indicacoes: "Gases intestinais.", posologia: "Lactentes: 3-5 Gotas. Crianças: 5-10 Gotas. Adultos: 10-30 Gotas." },
+            { nome: "Dramin B6 Gotas", principioAtivo: "Dimenidrinato", dosagem: "Gotas", categoria: "Antiemético", indicacoes: "Enjoo de viagem.", posologia: "1 gota por kg de peso por dose." }
         ];
 
         const initApp = async () => {
@@ -90,7 +220,7 @@
 
         const displayResults = (results) => {
             const resultsDiv = document.getElementById('search-results');
-            resultsDiv.innerHTML = results.length ? '' : `<p class="text-center text-gray-500 py-12 col-span-full">Nenhum medicamento encontrado.</p>`;
+            resultsDiv.innerHTML = results.length ? '' : `<p class="text-center text-gray-500 py-12 col-span-full font-bold">Medicamento não encontrado na base de dados.</p>`;
             results.forEach((med) => {
                 const color = getCategoryColor(med.categoria);
                 const item = document.createElement('div');
@@ -112,7 +242,7 @@
         };
 
         const getCategoryColor = (cat) => {
-            const colors = { 'Antibiótico': '#ef4444', 'Analgésico': '#3b82f6', 'Corticosteroide': '#f59e0b', 'Anti-histamínico': '#8b5cf6', 'Expectorante': '#10b981', 'Antiparasitário': '#6366f1' };
+            const colors = { 'Antibiótico': '#ef4444', 'Analgésico': '#3b82f6', 'Corticosteroide': '#f59e0b', 'Anti-histamínico': '#8b5cf6', 'Expectorante': '#10b981', 'Antiparasitário': '#6366f1', 'Descongestionante': '#06b6d4', 'Antiespasmódico': '#ec4899', 'Antiemético': '#f43f5e' };
             return colors[cat] || '#64748b';
         };
 
@@ -122,18 +252,26 @@
             content.innerHTML = `
                 <div class="mb-6 text-left">
                     <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">${med.categoria || 'Medicamento'}</span>
-                    <h2 class="text-2xl font-black text-gray-900 mt-2">${med.nome}</h2>
+                    <h2 class="text-2xl font-black text-gray-900 mt-2 leading-tight">${med.nome}</h2>
                     <p class="text-gray-500 font-medium text-sm">${med.principioAtivo} | ${med.dosagem}</p>
                 </div>
+
                 <div id="dose-calculator-container"></div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 text-left">
-                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                        <h3 class="font-bold text-xs text-gray-700 mb-2 flex items-center gap-2 uppercase tracking-tighter">Indicações</h3>
-                        <p class="text-xs text-gray-600 leading-relaxed">${med.indicacoes || 'Consultar bula oficial.'}</p>
+                    <div class="bg-blue-50 p-5 rounded-2xl border border-blue-100 shadow-sm">
+                        <h3 class="font-bold text-xs text-blue-800 mb-2 flex items-center gap-2 uppercase tracking-wider">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            Indicações Terapêuticas
+                        </h3>
+                        <p class="text-sm text-blue-900 font-medium leading-relaxed">${med.indicacoes || 'Consultar bula oficial para indicações detalhadas.'}</p>
                     </div>
-                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                        <h3 class="font-bold text-xs text-gray-700 mb-2 flex items-center gap-2 uppercase tracking-tighter">Observações</h3>
-                        <p class="text-xs text-gray-600 leading-relaxed">${med.reacoesAdversas || 'Verificar bula para efeitos colaterais.'}</p>
+                    <div class="bg-amber-50 p-5 rounded-2xl border border-amber-100 shadow-sm">
+                        <h3 class="font-bold text-xs text-amber-800 mb-2 flex items-center gap-2 uppercase tracking-wider">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                            Observações e Alertas
+                        </h3>
+                        <p class="text-sm text-amber-900 font-medium leading-relaxed">${med.reacoesAdversas || 'Monitorar reacções e contraindicações conforme bula.'}</p>
                     </div>
                 </div>
             `;
@@ -145,7 +283,12 @@
             const container = document.getElementById('dose-calculator-container');
             const p = med.pesoBaseCalculo;
             if(!p) {
-                container.innerHTML = `<div class="bg-indigo-50 p-5 rounded-2xl border border-indigo-100 text-left"><h3 class="text-indigo-800 font-bold mb-2 text-sm uppercase">Posologia Sugerida</h3><p class="text-gray-700 font-bold text-lg">${med.posologia || 'Dose sob orientação médica.'}</p></div>`;
+                container.innerHTML = `
+                    <div class="bg-indigo-50 p-6 rounded-3xl border border-indigo-100 text-left shadow-sm">
+                        <h3 class="text-indigo-800 font-black mb-3 text-xs uppercase tracking-widest">Posologia Recomendada</h3>
+                        <p class="text-gray-700 font-bold text-xl leading-snug">${med.posologia || 'A dose deve ser definida conforme prescrição médica.'}</p>
+                    </div>
+                `;
                 return;
             }
 
@@ -157,29 +300,30 @@
             }
 
             container.innerHTML = `
-                <div class="bg-indigo-50 p-5 rounded-2xl border border-indigo-100 shadow-inner text-left">
+                <div class="bg-indigo-50 p-6 rounded-3xl border border-indigo-100 shadow-inner text-left">
                     <div class="mb-4">
                         <div class="flex justify-between items-center mb-1">
                             <label class="block text-xs font-bold text-gray-500 uppercase">Peso do Paciente (kg)</label>
                             <span class="text-[10px] font-black text-indigo-500 uppercase tracking-tighter">${p.infoDoseRef || ''}</span>
                         </div>
-                        <input type="number" id="peso-input" step="0.1" placeholder="Ex: 12" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-xl font-black" oninput="runCalculation('${med.nome}')">
+                        <input type="number" id="peso-input" step="0.1" placeholder="Digite o peso..." class="w-full p-4 border-2 border-transparent bg-white rounded-2xl focus:border-indigo-500 outline-none text-2xl font-black shadow-sm transition-all" oninput="runCalculation('${med.nome}')">
                     </div>
                     ${selectionHtml}
                     <div id="result-area" class="grid grid-cols-2 gap-3 mb-4">
-                        <div id="result-box" class="bg-indigo-600 text-white p-4 rounded-xl text-center shadow-lg"><p class="text-[9px] uppercase font-bold opacity-80 tracking-widest">Dose Única</p><p id="result-dose" class="text-2xl font-black">---</p></div>
-                        <div id="daily-box" class="bg-indigo-900 text-white p-4 rounded-xl text-center shadow-lg"><p class="text-[9px] uppercase font-bold opacity-80 tracking-widest">Total Diário</p><p id="result-daily" class="text-2xl font-black">---</p></div>
+                        <div id="result-box" class="bg-indigo-600 text-white p-5 rounded-2xl text-center shadow-lg"><p class="text-[10px] uppercase font-bold opacity-80 tracking-widest mb-1">Dose Única</p><p id="result-dose" class="text-2xl font-black leading-none">---</p></div>
+                        <div id="daily-box" class="bg-indigo-900 text-white p-5 rounded-2xl text-center shadow-lg"><p class="text-[10px] uppercase font-bold opacity-80 tracking-widest mb-1">Total Diário</p><p id="result-daily" class="text-2xl font-black leading-none">---</p></div>
                     </div>
-                    <div class="mb-4 freq-highlight p-4 rounded-xl flex items-start gap-3 shadow-sm text-left">
-                        <div class="bg-green-500 p-2 rounded-lg text-white"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
-                        <div><p class="text-[9px] uppercase font-bold text-green-700 tracking-widest">Frequência e Horários</p><p id="freq-text-display" class="text-sm font-extrabold text-green-900 leading-tight">${p.freqTexto}</p></div>
+                    <div class="mb-4 freq-highlight p-5 rounded-2xl flex items-center gap-4 shadow-sm text-left">
+                        <div class="bg-green-500 p-2.5 rounded-xl text-white shadow-md">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase font-bold text-green-700 tracking-widest mb-0.5">Frequência e Horários</p>
+                            <p id="freq-text-display" class="text-lg font-black text-green-900 leading-tight">${p.freqTexto}</p>
+                        </div>
                     </div>
                     <div id="warning-area">
-                        <p id="warning-text" class="text-xs font-bold text-orange-600 mb-2 hidden text-left">⚠️ Atenção: Limite máximo atingido!</p>
-                        <div class="text-[11px] text-gray-500 bg-white p-3 rounded-lg border border-indigo-100 text-left">
-                            <p id="age-hint" class="font-bold text-indigo-700 mb-1"></p>
-                            <p class="font-medium text-red-600 flex items-center gap-1"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>${p.restricaoIdade || 'Consultar orientação médica.'}</p>
-                        </div>
+                        <p id="warning-text" class="text-xs font-bold text-orange-600 mb-2 hidden text-left bg-orange-50 p-2 rounded-lg border border-orange-100 uppercase tracking-tighter text-center font-bold">⚠️ Atenção: Dose máxima recomendada atingida!</p>
                     </div>
                 </div>
             `;
@@ -194,16 +338,14 @@
             
             const doseEl = document.getElementById('result-dose');
             const dailyEl = document.getElementById('result-daily');
-            const hintEl = document.getElementById('age-hint');
             const warningEl = document.getElementById('warning-text');
             const resultBox = document.getElementById('result-box');
 
             if (!peso || peso <= 0) {
-                doseEl.innerText = "---"; dailyEl.innerText = "---"; if(hintEl) hintEl.innerText = "";
-                return;
+                doseEl.innerText = "---"; dailyEl.innerText = "---"; return;
             }
 
-            let dUnica = "---"; let dTotal = "---"; let hint = ""; let warn = false;
+            let dUnica = "---"; let dTotal = "---"; let warn = false;
             const formatValue = (val, unit) => `(${Number(val.toFixed(2)).toString().replace('.', ',')} ${unit})`;
 
             if (med.tipoCalculo === "tabelaDecongexGotas") {
@@ -212,11 +354,11 @@
                 if(total >= 60) warn = true;
             }
             else if (med.tipoCalculo === "tabelaDecongex") {
-                if(peso < 12) { dUnica = "N/A"; hint = "Contraindicado < 2 anos"; }
-                else if(peso < 35) { dUnica = formatValue(5, "mL"); dTotal = formatValue(20, "mL"); hint = "Crianças (>2 anos)"; }
-                else { dUnica = formatValue(15, "mL"); dTotal = formatValue(60, "mL"); hint = "Adultos/Adolescentes"; }
+                if(peso < 12) { dUnica = "N/A"; }
+                else if(peso < 35) { dUnica = formatValue(5, "mL"); dTotal = formatValue(20, "mL"); }
+                else { dUnica = formatValue(15, "mL"); dTotal = formatValue(60, "mL"); }
             }
-            else if (med.nome.includes("Solução 3 mg/mL") || med.nome.includes("Solução 3mg/mL")) {
+            else if (med.nome.includes("Solução 3 mg/mL")) {
                 let mgKg = p.currentIntensidade; let mgT = Math.min(peso * mgKg, 60);
                 dUnica = formatValue(mgT/3, "mL"); dTotal = formatValue(mgT/3, "mL");
                 if(peso * mgKg >= 60) warn = true;
@@ -239,21 +381,20 @@
                 let g = peso < 5 ? 0 : (peso <= 8 ? 5 : (peso <= 15 ? 10 : (peso <= 23 ? 15 : (peso <= 30 ? 20 : (peso <= 45 ? 30 : (peso <= 53 ? 35 : 40))))));
                 dUnica = g > 0 ? formatValue(g, "Gotas") : "N/A"; dTotal = g > 0 ? formatValue(g*4, "Gotas") : "---";
             }
-            else if (med.tipoCalculo === "intensidade") {
-                let mgKg = p.currentIntensidade;
-                let gtt = Math.round((peso * mgKg) / (p.concentracaoMgPerMl/20));
-                if(p.maxDosePorTomada && gtt > p.maxDosePorTomada) { gtt = p.maxDosePorTomada; warn = true; }
-                dUnica = formatValue(gtt, "Gotas"); 
-                dTotal = formatValue(gtt * (p.freqDosesPorDia || 4), "Gotas");
-            }
-            else if (p.doseMgPerKgPerDiaMin) {
-                let mk = parseFloat(document.getElementById('dose-slider')?.value || p.defaultDose);
-                let ml = (peso * mk / p.freqDosesPorDia) / p.concentracaoMgPerMl;
-                dUnica = formatValue(ml, "mL"); dTotal = formatValue(ml * p.freqDosesPorDia, "mL");
-                if(document.getElementById('dose-val')) document.getElementById('dose-val').innerText = mk;
+            else if (med.tipoCalculo === "intensidade" || med.tipoCalculo === "faixa") {
+                let mgKg = p.currentIntensidade || parseFloat(document.getElementById('dose-slider')?.value || p.defaultDose);
+                let mgTotal = peso * mgKg;
+                let unit = p.unidade || "mL";
+                let valUnico = (mgTotal / (p.freqDosesPorDia || 1)) / p.concentracaoMgPerMl;
+                
+                if(unit === "Gotas") valUnico = Math.round((mgTotal / p.freqDosesPorDia) / (p.concentracaoMgPerMl/20));
+                
+                dUnica = formatValue(valUnico, unit);
+                dTotal = formatValue(valUnico * (p.freqDosesPorDia || 1), unit);
+                if(document.getElementById('dose-val')) document.getElementById('dose-val').innerText = mgKg;
             }
 
-            doseEl.innerText = dUnica; dailyEl.innerText = dTotal; hintEl.innerText = hint;
+            doseEl.innerText = dUnica; dailyEl.innerText = dTotal;
             if(warn) { warningEl.classList.remove('hidden'); resultBox.classList.replace('bg-indigo-600', 'bg-orange-500'); }
             else { warningEl.classList.add('hidden'); resultBox.classList.replace('bg-orange-500', 'bg-indigo-600'); }
         };
@@ -271,7 +412,7 @@
 <body class="min-h-screen pb-12 text-center">
     <div id="loading-overlay" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center">
         <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-indigo-500"></div>
-        <p class="mt-4 text-indigo-600 font-bold">SOUZA FARMA</p>
+        <p class="mt-4 text-indigo-600 font-bold animate-pulse uppercase tracking-widest">Souza Farma</p>
     </div>
 
     <div class="max-w-6xl mx-auto p-4 md:p-8">
@@ -280,11 +421,11 @@
                 <img src="souza_farma_logo.png" alt="Souza Farma" class="w-full h-auto" onerror="this.src='https://placehold.co/300x100?text=Souza+Farma'">
             </div>
             <h1 class="text-4xl font-black text-indigo-700 mt-4 tracking-tighter">Bulas & Calculadora</h1>
-            <p class="text-gray-500 text-xs mt-1 uppercase tracking-[0.3em] font-black">Apoio Profissional v3.7</p>
+            <p class="text-gray-500 text-xs mt-1 uppercase tracking-[0.3em] font-black">Sistema Profissional de Dispensação v4.0</p>
         </header>
 
         <div class="max-w-2xl mx-auto mb-10">
-            <div class="relative group">
+            <div class="relative group text-left">
                 <input type="text" placeholder="Qual medicamento procura?" oninput="searchMedicamentos(this.value)" 
                     class="w-full pl-14 pr-6 py-5 bg-white border-2 border-gray-100 rounded-3xl shadow-xl focus:ring-4 focus:ring-indigo-50/50 focus:border-indigo-500 outline-none transition-all text-lg font-bold">
                 <div class="absolute left-5 top-5 text-gray-300 group-focus-within:text-indigo-500 transition-colors">
@@ -299,7 +440,7 @@
     <div id="bula-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-80 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white rounded-[2.5rem] p-6 md:p-10 w-full max-w-3xl max-h-[92vh] overflow-y-auto relative shadow-2xl border border-white text-center">
             <button onclick="closeModal('bula-modal')" class="close-button absolute top-8 right-8 text-4xl text-gray-300 hover:text-red-500 transition-colors">&times;</button>
-            <div id="bula-content"></div>
+            <div id="bula-content" class="pb-6"></div>
         </div>
     </div>
 </body>
